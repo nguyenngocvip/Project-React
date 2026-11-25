@@ -1,0 +1,35 @@
+:root {
+  --crimson-primary: #e11d48;
+  --crimson-soft: #fb7185;
+  --crimson-tint: #fda4af;
+  --bg-obsidian: #0c0a0b;
+  --bg-card: #161214;
+  --border-subtle: #2c2226;
+  --text-main: #fafafa;
+  --text-secondary: #d4d4d8;
+  --text-muted: #a1a1aa;
+}
+
+* {
+  box-sizing: border-box;
+  font-family: 'Be Vietnam Pro', system-ui, -apple-system, sans-serif;
+}
+
+body {
+  margin: 0;
+  background-color: var(--bg-obsidian);
+  color: var(--text-main);
+  -webkit-font-smoothing: antialiased;
+}
+
+#root {
+  width: 100%;
+  min-height: 100vh;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: var(--crimson-primary) !important;
+  box-shadow: 0 0 0 2px rgba(225, 29, 72, 0.25);
+}
