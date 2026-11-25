@@ -37,7 +37,10 @@ function auctionReducer(state, action) {
     case 'LOGIN_SUCCESS':
       return {
         ...state,
-        user: action.payload,
+        user: {
+          ...action.payload,
+          walletBalance: 0
+        },
         modals: { ...state.modals, isLoginOpen: false }
       };
 
@@ -321,9 +324,13 @@ export function AuctionProvider({ children }) {
   }, [state.user, state.products, state.depositedIds, state.depositedAmounts, state.refundedIds, pushNotification]);
 
   const loginSuccess = (userData) => {
-    dispatch({ type: 'LOGIN_SUCCESS', payload: userData });
+    const initializedUser = {
+      ...userData,
+      walletBalance: 0
+    };
+    dispatch({ type: 'LOGIN_SUCCESS', payload: initializedUser });
     pushNotification(
-      `👋 Chào mừng ${userData.name}! Trạng thái KYC: ${userData.isKycVerified ? 'Đã xác thực' : 'Chưa xác thực'}`
+      `👋 Chào mừng ${initializedUser.name}! Trạng thái KYC: ${initializedUser.isKycVerified ? 'Đã xác thực' : 'Chưa xác thực'}`
     );
   };
 
@@ -511,7 +518,6 @@ export function AuctionProvider({ children }) {
       'warning'
     );
 
-    // Kiểm tra xem user hiện tại có đang bật Proxy Bid với giá trần cao hơn giá Bot vừa trả không
     const userProxy = state.activeBids[prodKey];
     if (state.user && userProxy?.isProxy && Number(userProxy.maxProxy) > botBidPrice) {
       const nextAutoBid = Math.min(Number(userProxy.maxProxy), botBidPrice + step);
